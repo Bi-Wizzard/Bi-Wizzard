@@ -26,3 +26,23 @@ Estoy abierto a colaborar en proyectos que involucren la transformación y optim
 
 ### ⚡ Un poco sobre mí
 Soy padre de gemelos, Renato y Baltazar, lo que me ha enseñado a manejar múltiples tareas con paciencia y organización, habilidades que aplico tanto en mi vida profesional como personal.
+
+---
+
+## 🎮 Meeting Brick Breaker
+
+Este repositorio ahora incluye un minijuego escrito en Python y Pygame en el que los ladrillos que debes destruir representan los bloques de reuniones de la agenda semanal.
+
+### Requisitos
+
+```bash
+pip install -r requirements.txt
+```
+
+### Ejecución
+
+```bash
+python meeting_brick_breaker.py
+```
+
+Usa las flechas (o las teclas `A` y `D`) para mover la paleta y liberar todos los bloques de reuniones.
