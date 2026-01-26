@@ -1,0 +1,139 @@
+openapi: 3.0.3
+info:
+  title: Collections Autodialer API
+  version: 0.1.0
+servers:
+  - url: http://localhost:8000
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
+  /tenants:
+    post:
+      summary: Create tenant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantCreate'
+      responses:
+        '201':
+          description: Created
+  /campaigns:
+    get:
+      summary: List campaigns
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create campaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignCreate'
+      responses:
+        '201':
+          description: Created
+  /campaigns/{campaign_id}/schedule:
+    post:
+      summary: Schedule campaign contacts
+      parameters:
+        - in: path
+          name: campaign_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleRequest'
+      responses:
+        '202':
+          description: Accepted
+  /debtors:
+    get:
+      summary: List debtors
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create debtor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DebtorCreate'
+      responses:
+        '201':
+          description: Created
+  /imports/debtors:
+    post:
+      summary: Import debtors CSV
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                idempotency_key:
+                  type: string
+      responses:
+        '202':
+          description: Accepted
+  /outbound-contacts:
+    get:
+      summary: List outbound contacts
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    TenantCreate:
+      type: object
+      properties:
+        name:
+          type: string
+      required: [name]
+    CampaignCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum: [VOICE, EMAIL, MIXED]
+        status:
+          type: string
+      required: [name, type]
+    DebtorCreate:
+      type: object
+      properties:
+        rut:
+          type: string
+        full_name:
+          type: string
+        tramo_mora:
+          type: string
+      required: [full_name]
+    ScheduleRequest:
+      type: object
+      properties:
+        idempotency_key:
+          type: string
+        correlation_id:
+          type: string
+      required: [idempotency_key]
